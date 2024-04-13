@@ -1,11 +1,13 @@
 package com.vinimanfrin.inscreening.models;
 
+import com.vinimanfrin.inscreening.dtos.paciente.PacienteCreateDTO;
+import com.vinimanfrin.inscreening.dtos.paciente.PacienteUpdateDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "pacientes")
+@Table(name = "t_pacientes")
 @Data
 @NoArgsConstructor
 public class Paciente {
@@ -26,6 +28,7 @@ public class Paciente {
     private SexoPaciente sexo;
 
     @OneToOne
+    @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
     private String nome;
@@ -34,4 +37,18 @@ public class Paciente {
 
     private String filiacaoMaterna;
 
+    public Paciente(PacienteCreateDTO pacienteCreateDTO, Endereco endereco) {
+        this.cpf = pacienteCreateDTO.cpf();
+        this.email = pacienteCreateDTO.email();
+        this.rg = pacienteCreateDTO.rg();
+        this.sexo = pacienteCreateDTO.sexo();
+        this.endereco = endereco;
+        this.nome = pacienteCreateDTO.nome();
+        this.filiacaoPaterna = pacienteCreateDTO.filiacaoPaterna();
+        this.filiacaoMaterna = pacienteCreateDTO.filiacaoMaterna();
+    }
+
+    public void update(PacienteUpdateDTO pacienteUpdateDTO) {
+        this.email = pacienteUpdateDTO.email();
+    }
 }
