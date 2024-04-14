@@ -2,6 +2,7 @@ package com.vinimanfrin.inscreening.service;
 
 import com.vinimanfrin.inscreening.dtos.funcionario.FuncionarioCreateDTO;
 import com.vinimanfrin.inscreening.dtos.funcionario.FuncionarioUpdateDTO;
+import com.vinimanfrin.inscreening.infra.exceptions.CadastroDuplicadoException;
 import com.vinimanfrin.inscreening.models.Funcionario;
 import com.vinimanfrin.inscreening.models.Hospital;
 import com.vinimanfrin.inscreening.models.Status;
@@ -30,6 +31,10 @@ public class FuncionarioService {
     }
 
     public Funcionario create(FuncionarioCreateDTO funcionarioCreateDTO){
+        boolean funcionarioExistente = repository.existsByCpf(funcionarioCreateDTO.cpf());
+        if (funcionarioExistente == true) throw new CadastroDuplicadoException("funcionário já cadastrado com o cpf:"+funcionarioCreateDTO.cpf());
+
+
         Hospital hospital = hospitalRepository.findById(funcionarioCreateDTO.idHospital()).orElseThrow(() -> new EntityNotFoundException("Hospital não encontrado com o id:"+funcionarioCreateDTO.idHospital()));
         Funcionario funcionario = new Funcionario(null, funcionarioCreateDTO.cpf(), funcionarioCreateDTO.email(), funcionarioCreateDTO.nome(), Status.ATIVO, hospital);
 
