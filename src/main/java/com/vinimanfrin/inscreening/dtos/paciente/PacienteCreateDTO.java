@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.br.CPF;
 
 public record PacienteCreateDTO(
         @CPF String cpf,
-        @Email String email,
+        @NotBlank @Email String email,
         @NotBlank String rg,
         @NotNull SexoPaciente sexo,
         @Valid EnderecoDTO endereco,
