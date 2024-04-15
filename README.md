@@ -53,8 +53,19 @@ spring.jpa.hibernate.ddl-auto=update
 ## Pitch
 https://youtu.be/DcmOWfKmNeE?si=fHOiejlcN7wZ_M55
 
-## Endpoints
+## Diagrama de Classes de Entidade
+![Descrição da Imagem](src/main/java/com/vinimanfrin/inscreening/documentacao/DriagramaDeClasses.PNG)
 
+## Diagrama de Relacionamento 
+![Descrição da Imagem](src/main/java/com/vinimanfrin/inscreening/documentacao/Relational.jpeg)
+
+## Cronograma de desenvolvimento
+[Trello](https://trello.com/b/t2BoeW1w/inscreening)
+
+## Requisições dos endpoints
+[Insominia](src/main/java/com/vinimanfrin/inscreening/documentacao/RequisiçõesInScreening_Insomnia)
+
+## Endpoints
 
 ### Hospital
 
@@ -194,7 +205,7 @@ Atualiza os detalhes do funcionário com o ID fornecido.
 ---
 
 
-DELETE/funcionario/{id}
+`DELETE`/funcionario/{id}
 
 Exclui logicamente o funcionário com o ID fornecido do sistema.
 
