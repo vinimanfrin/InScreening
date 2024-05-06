@@ -11,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/hospital")
@@ -27,8 +30,8 @@ public class HospitalController {
 
     @GetMapping
     @Cacheable
-    public ResponseEntity<List<HospitalResponseDTO>> index(){
-        List<HospitalResponseDTO> hospitais = service.index().stream().map(hospital -> new HospitalResponseDTO(hospital)).toList();
+    public ResponseEntity<Page<HospitalResponseDTO>> index(@PageableDefault(size = 10,sort = {"razaoSocial"})Pageable pageable){
+        Page<HospitalResponseDTO> hospitais = service.index(pageable).map(hospital -> new HospitalResponseDTO(hospital));
 
         return ResponseEntity.ok(hospitais);
     }

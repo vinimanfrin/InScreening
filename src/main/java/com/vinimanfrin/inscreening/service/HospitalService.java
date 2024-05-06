@@ -6,8 +6,9 @@ import com.vinimanfrin.inscreening.infra.exceptions.CadastroDuplicadoException;
 import com.vinimanfrin.inscreening.models.Hospital;
 import com.vinimanfrin.inscreening.repository.HospitalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class HospitalService {
@@ -15,8 +16,8 @@ public class HospitalService {
     @Autowired
     private HospitalRepository repository;
 
-    public List<Hospital> index(){
-        return repository.findAll();
+    public Page<Hospital> index(Pageable pageable){
+        return repository.findAll(pageable);
     }
 
     public Hospital get(String id){

@@ -7,8 +7,9 @@ import com.vinimanfrin.inscreening.repository.PacienteRepository;
 import com.vinimanfrin.inscreening.repository.TriagemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class TriagemService {
@@ -19,8 +20,8 @@ public class TriagemService {
     @Autowired
     private PacienteRepository pacienteRepository;
 
-    public List<Triagem> index(){
-        return repository.findAll();
+    public Page<Triagem> index(Pageable pageable){
+        return repository.findAll(pageable);
     }
 
     public Triagem get(String id){

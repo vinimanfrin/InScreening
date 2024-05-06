@@ -7,8 +7,9 @@ import com.vinimanfrin.inscreening.models.Endereco;
 import com.vinimanfrin.inscreening.models.Paciente;
 import com.vinimanfrin.inscreening.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class PacienteService {
@@ -19,8 +20,8 @@ public class PacienteService {
     @Autowired
     private EnderecoService enderecoService;
 
-    public List<Paciente> index(){
-        return repository.findAll();
+    public Page<Paciente> index(Pageable pageable){
+        return repository.findAll(pageable);
     }
 
     public Paciente get(String id){

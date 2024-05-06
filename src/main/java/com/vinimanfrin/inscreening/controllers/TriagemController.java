@@ -5,12 +5,14 @@ import com.vinimanfrin.inscreening.dtos.triagem.TriagemDetailDTO;
 import com.vinimanfrin.inscreening.models.Triagem;
 import com.vinimanfrin.inscreening.service.TriagemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/triagem")
@@ -20,8 +22,8 @@ public class TriagemController {
     private TriagemService service;
 
     @GetMapping
-    public ResponseEntity<List<TriagemDetailDTO>> index(){
-        List<TriagemDetailDTO> triagens = service.index().stream().map(TriagemDetailDTO::new).toList();
+    public ResponseEntity<Page<TriagemDetailDTO>> index(@PageableDefault(size = 10, sort = {"dataInicio"})Pageable pageable){
+        Page<TriagemDetailDTO> triagens = service.index(pageable).map(TriagemDetailDTO::new);
         return ResponseEntity.ok(triagens);
     }
 
