@@ -8,6 +8,9 @@ import com.vinimanfrin.inscreening.service.HospitalService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -16,12 +19,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/hospital")
+@CacheConfig(cacheNames = "hospitais")
 public class HospitalController {
 
     @Autowired
     private HospitalService service;
 
     @GetMapping
+    @Cacheable
     public ResponseEntity<List<HospitalResponseDTO>> index(){
         List<HospitalResponseDTO> hospitais = service.index().stream().map(hospital -> new HospitalResponseDTO(hospital)).toList();
 
@@ -37,6 +42,7 @@ public class HospitalController {
 
     @PostMapping
     @Transactional
+    @CacheEvict(allEntries = true)
     public ResponseEntity create(@RequestBody @Valid HospitalCreateDTO hospitalDto){
         Hospital hospitalCreated = service.create(hospitalDto);
 
@@ -45,6 +51,7 @@ public class HospitalController {
 
     @PutMapping("/{id}")
     @Transactional
+    @CacheEvict(allEntries = true)
     public ResponseEntity<HospitalResponseDTO> update(@PathVariable String id, @RequestBody @Valid HospitalUpdateDTO hospitalUpdateDTO){
         Hospital hospitalAtualizado = service.update(id,hospitalUpdateDTO);
 
@@ -53,6 +60,7 @@ public class HospitalController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @CacheEvict(allEntries = true)
     public ResponseEntity delete(@PathVariable String id){
         service.delete(id);
 

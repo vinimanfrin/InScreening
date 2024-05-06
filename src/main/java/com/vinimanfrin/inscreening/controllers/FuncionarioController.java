@@ -8,6 +8,9 @@ import com.vinimanfrin.inscreening.service.FuncionarioService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -16,12 +19,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/funcionario")
+@CacheConfig(cacheNames = "funcionarios")
 public class FuncionarioController {
 
     @Autowired
     private FuncionarioService service;
 
     @GetMapping
+    @Cacheable
     public ResponseEntity<List<FuncionarioResponseDTO>> index(){
         List<FuncionarioResponseDTO> funcionarios = service.index().stream().map(funcionario -> new FuncionarioResponseDTO(funcionario)).toList();
 
@@ -37,6 +42,7 @@ public class FuncionarioController {
 
     @PostMapping
     @Transactional
+    @CacheEvict(allEntries = true)
     public ResponseEntity create(@RequestBody @Valid FuncionarioCreateDTO funcionarioCreateDTO){
         Funcionario funcionarioCreate = service.create(funcionarioCreateDTO);
 
@@ -45,6 +51,7 @@ public class FuncionarioController {
 
     @PutMapping("/{id}")
     @Transactional
+    @CacheEvict(allEntries = true)
     public ResponseEntity<FuncionarioResponseDTO> update(@PathVariable String id, @RequestBody @Valid FuncionarioUpdateDTO funcionarioUpdateDTO){
         Funcionario funcionarioAtualizado = service.update(id,funcionarioUpdateDTO);
 
@@ -53,6 +60,7 @@ public class FuncionarioController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @CacheEvict(allEntries = true)
     public ResponseEntity delete(@PathVariable String id){
         service.delete(id);
 
