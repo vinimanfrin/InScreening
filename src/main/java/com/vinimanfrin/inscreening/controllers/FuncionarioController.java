@@ -5,6 +5,7 @@ import com.vinimanfrin.inscreening.dtos.funcionario.FuncionarioResponseDTO;
 import com.vinimanfrin.inscreening.dtos.funcionario.FuncionarioUpdateDTO;
 import com.vinimanfrin.inscreening.models.Funcionario;
 import com.vinimanfrin.inscreening.service.FuncionarioService;
+import com.vinimanfrin.inscreening.utils.UriUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -66,7 +67,7 @@ public class FuncionarioController {
     public ResponseEntity create(@ParameterObject @RequestBody @Valid FuncionarioCreateDTO funcionarioCreateDTO){
         Funcionario funcionarioCreate = service.create(funcionarioCreateDTO);
 
-        return ResponseEntity.created(createUri(funcionarioCreate)).build();
+        return ResponseEntity.created(UriUtils.createUri(funcionarioCreate.getId())).build();
     }
 
     @PutMapping("/{id}")
@@ -95,14 +96,5 @@ public class FuncionarioController {
         service.delete(id);
 
         return ResponseEntity.noContent().build();
-    }
-
-    private URI createUri(Funcionario funcionario){
-        var path = "/"+funcionario.getId();
-        return ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path(path)
-                .build()
-                .toUri();
     }
 }

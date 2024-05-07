@@ -5,6 +5,7 @@ import com.vinimanfrin.inscreening.dtos.paciente.PacienteResponseDTO;
 import com.vinimanfrin.inscreening.dtos.paciente.PacienteUpdateDTO;
 import com.vinimanfrin.inscreening.models.Paciente;
 import com.vinimanfrin.inscreening.service.PacienteService;
+import com.vinimanfrin.inscreening.utils.UriUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -60,7 +61,7 @@ public class PacienteController {
     public ResponseEntity create(@ParameterObject @RequestBody @Valid PacienteCreateDTO pacienteCreateDTO){
         Paciente pacienteCreated = service.create(pacienteCreateDTO);
 
-        return ResponseEntity.created(createUri(pacienteCreated)).build();
+        return ResponseEntity.created(UriUtils.createUri(pacienteCreated.getId())).build();
     }
 
     @PutMapping("/{id}")
@@ -74,14 +75,5 @@ public class PacienteController {
         Paciente pacienteAtualizado = service.update(id,pacienteUpdateDTO);
 
         return ResponseEntity.ok(new PacienteResponseDTO(pacienteAtualizado));
-    }
-
-    private URI createUri(Paciente hospital){
-        var path = "/"+hospital.getId();
-        return ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path(path)
-                .build()
-                .toUri();
     }
 }

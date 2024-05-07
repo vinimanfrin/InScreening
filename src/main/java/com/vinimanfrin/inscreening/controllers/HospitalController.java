@@ -5,6 +5,7 @@ import com.vinimanfrin.inscreening.dtos.hospital.HospitalResponseDTO;
 import com.vinimanfrin.inscreening.dtos.hospital.HospitalUpdateDTO;
 import com.vinimanfrin.inscreening.models.Hospital;
 import com.vinimanfrin.inscreening.service.HospitalService;
+import com.vinimanfrin.inscreening.utils.UriUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -66,7 +67,7 @@ public class HospitalController {
     public ResponseEntity create(@ParameterObject @RequestBody @Valid HospitalCreateDTO hospitalDto){
         Hospital hospitalCreated = service.create(hospitalDto);
 
-        return ResponseEntity.created(createUri(hospitalCreated)).build();
+        return ResponseEntity.created(UriUtils.createUri(hospitalCreated.getId())).build();
     }
 
     @PutMapping("/{id}")
@@ -95,15 +96,5 @@ public class HospitalController {
         service.delete(id);
 
         return ResponseEntity.noContent().build();
-    }
-
-
-    private URI createUri(Hospital hospital){
-        var path = "/"+hospital.getId();
-        return ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path(path)
-                .build()
-                .toUri();
     }
 }

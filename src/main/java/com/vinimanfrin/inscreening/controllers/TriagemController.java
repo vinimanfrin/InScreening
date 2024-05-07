@@ -4,6 +4,7 @@ import com.vinimanfrin.inscreening.dtos.triagem.TriagemCreateDTO;
 import com.vinimanfrin.inscreening.dtos.triagem.TriagemDetailDTO;
 import com.vinimanfrin.inscreening.models.Triagem;
 import com.vinimanfrin.inscreening.service.TriagemService;
+import com.vinimanfrin.inscreening.utils.UriUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -56,16 +57,6 @@ public class TriagemController {
     public ResponseEntity create(@ParameterObject @RequestBody TriagemCreateDTO dadosTriagem){
         Triagem triagem = service.create(dadosTriagem);
 
-        return ResponseEntity.created(createUri(triagem)).build();
-    }
-
-    public URI createUri(Triagem triagem){
-        var path = "/"+triagem.getId();
-
-        return ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path(path)
-                .build()
-                .toUri();
+        return ResponseEntity.created(UriUtils.createUri(triagem.getId())).build();
     }
 }
