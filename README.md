@@ -65,6 +65,9 @@ https://youtu.be/DcmOWfKmNeE?si=fHOiejlcN7wZ_M55
 ## Requisições dos endpoints
 [Insominia](src/main/java/com/vinimanfrin/inscreening/documentacao/RequisiçõesInScreening_Insomnia)
 
+## Mais detalhes
+Após inicializar o projeto , consulte /swagger-ui/index.html para informações mais detalhadas dos endpoints.
+
 ## Endpoints
 
 ### Hospital
