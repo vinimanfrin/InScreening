@@ -23,6 +23,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/triagem")
 @Tag(name = "triagens", description = "Endpoint relacionado aos dados de triagens")
+@CrossOrigin("*")
 public class TriagemController {
 
     @Autowired

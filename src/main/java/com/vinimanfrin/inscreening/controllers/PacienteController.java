@@ -26,6 +26,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/paciente")
 @Tag(name = "pacientes", description = "Endpoint relacionado aos dados de pacientes")
+@CrossOrigin("*")
 public class PacienteController {
 
     @Autowired
